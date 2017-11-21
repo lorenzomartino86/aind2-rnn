@@ -16,3 +16,11 @@ __pycache__/
 .venv
 venv/
 ENV/
+
+.idea
+.ipython
+.local
+.keras
+.cache
+
+.jupyter
