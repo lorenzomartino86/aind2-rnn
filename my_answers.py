@@ -36,15 +36,13 @@ def build_part1_RNN(window_size):
 ### TODO: return the text input with only ascii lowercase and the punctuation given below included.
 def cleaned_text(text):
     punctuation = ['!', ',', '.', ':', ';', '?']
-    punctuation.extend(['-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '"','$', '%', '&', "'", '(', ')', '*', '/', '@'])
-    for char in punctuation:
-        text = text.replace(char, ' ')
-    text.replace('à', 'a')
-    text.replace('â', 'a')
-    text.replace('ò', 'o')
-    text.replace('è', 'e')
-    text.replace('é', 'e')
-    text.replace('ù', 'u')
+    unwanted_chars = ['-','$', '%', '&','(', ')', '*', '/', '@', 'à', 'â', 'è', 'é']
+    
+    unique_chars = ''.join(set(text))
+    
+    for char in unique_chars:
+        if char in unwanted_chars:
+            text = text.replace(char, ' ')
 
     return text
 
@@ -54,7 +52,7 @@ def window_transform_text(text, window_size, step_size):
     p = len(text)
     
     inputs = [text[i:i+window_size] for i in range(0, p - window_size, step_size)]
-    outputs = [text[i+step_size] for i in range(window_size,p - step_size)]
+    outputs = [text[i+window_size] for i in range(0, p - window_size, step_size)]
 
     return inputs,outputs
 
@@ -65,4 +63,5 @@ def build_part2_RNN(window_size, num_chars):
     model = Sequential()
     model.add(LSTM(units=200, input_shape = (window_size,num_chars), activation='tanh'))
     model.add(Dense(num_chars, activation='softmax'))
+    model.summary()
     return model
