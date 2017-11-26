@@ -36,15 +36,19 @@ def build_part1_RNN(window_size):
 ### TODO: return the text input with only ascii lowercase and the punctuation given below included.
 def cleaned_text(text):
     punctuation = ['!', ',', '.', ':', ';', '?']
-    unwanted_chars = ['-','$', '%', '&','(', ')', '*', '/', '@', 'à', 'â', 'è', 'é']
+    unwanted_chars = ['-','$', '%', '&','(', ')', '*', '/', '@', 'à', 'â', 'è', 'é', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', "'", '[', ']', '<', '>', ' ', '\n', '\r', '}', '{', '\f', '\t', '_', '=', '\u000b', '`']
     
     unique_chars = ''.join(set(text))
     
     for char in unique_chars:
-        if char in unwanted_chars:
+        if char not in punctuation and (char in unwanted_chars or not is_lowercase_ascii(char)):
             text = text.replace(char, ' ')
 
     return text
+
+def is_lowercase_ascii(char):
+    return 97<=ord(char)<=122
+
 
 ### TODO: fill out the function below that transforms the input text and window-size into a set of input/output pairs for use with our RNN model
 def window_transform_text(text, window_size, step_size):
