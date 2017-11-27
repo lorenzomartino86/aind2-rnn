@@ -34,14 +34,14 @@ def build_part1_RNN(window_size):
 
 
 ### TODO: return the text input with only ascii lowercase and the punctuation given below included.
+import string
 def cleaned_text(text):
     punctuation = ['!', ',', '.', ':', ';', '?']
-    unwanted_chars = ['-','$', '%', '&','(', ')', '*', '/', '@', 'à', 'â', 'è', 'é', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', "'", '[', ']', '<', '>', ' ', '\n', '\r', '}', '{', '\f', '\t', '_', '=', '\u000b', '`']
     
     unique_chars = ''.join(set(text))
     
     for char in unique_chars:
-        if char not in punctuation and (char in unwanted_chars or not is_lowercase_ascii(char)):
+        if char not in punctuation and char not in string.ascii_lowercase:
             text = text.replace(char, ' ')
 
     return text
